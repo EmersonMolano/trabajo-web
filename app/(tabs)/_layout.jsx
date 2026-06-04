@@ -1,18 +1,23 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors } from '../../constants/design';
 
 export default function TabsLayout() {
+  const insets = useSafeAreaInsets();
+  const bottomSpace = Math.max(insets.bottom, 14);
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#146c94',
-        tabBarInactiveTintColor: '#647084',
+        tabBarActiveTintColor: colors.coral,
+        tabBarInactiveTintColor: colors.muted,
         tabBarStyle: {
-          backgroundColor: '#ffffff',
-          borderTopColor: '#dde3ec',
-          height: 64,
-          paddingBottom: 8,
+          backgroundColor: colors.paper,
+          borderTopColor: colors.line,
+          height: 58 + bottomSpace,
+          paddingBottom: bottomSpace,
           paddingTop: 6,
         },
         tabBarLabelStyle: { fontSize: 12, fontWeight: '700' },
@@ -22,7 +27,7 @@ export default function TabsLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color, size }) => <Ionicons name="apps-outline" size={size} color={color} />,
+          tabBarIcon: ({ color, size }) => <Ionicons name="planet-outline" size={size} color={color} />,
         }}
       />
       <Tabs.Screen
@@ -36,7 +41,7 @@ export default function TabsLayout() {
         name="lista"
         options={{
           title: 'Scroll',
-          tabBarIcon: ({ color, size }) => <Ionicons name="list-outline" size={size} color={color} />,
+          tabBarIcon: ({ color, size }) => <Ionicons name="reader-outline" size={size} color={color} />,
         }}
       />
     </Tabs>

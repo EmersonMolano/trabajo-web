@@ -1,16 +1,18 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Drawer } from 'expo-router/drawer';
+import { colors } from '../../constants/design';
 
 export default function DrawerLayout() {
   return (
     <Drawer
       screenOptions={{
-        headerStyle: { backgroundColor: '#0f3f63' },
-        headerTintColor: '#ffffff',
-        drawerActiveBackgroundColor: '#eaf4fb',
-        drawerActiveTintColor: '#146c94',
-        drawerInactiveTintColor: '#647084',
+        headerStyle: { backgroundColor: colors.ink },
+        headerTintColor: colors.paper,
+        drawerActiveBackgroundColor: colors.paperAlt,
+        drawerActiveTintColor: colors.coral,
+        drawerInactiveTintColor: colors.ink,
         drawerLabelStyle: { fontSize: 16, fontWeight: '800' },
+        drawerStyle: { backgroundColor: colors.paper },
       }}
     >
       <Drawer.Screen
