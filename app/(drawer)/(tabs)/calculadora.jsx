@@ -1,7 +1,22 @@
 import { useMemo, useState } from 'react';
-import { Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  InputAccessoryView,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, shadow } from '../../../constants/design';
+
+const inputAccessoryViewID = 'calculatorDoneToolbar';
 
 const operaciones = [
   { label: '+', nombre: 'Suma' },
@@ -39,63 +54,92 @@ export default function CalculadoraScreen() {
 
   return (
     <SafeAreaView style={styles.safe}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <View style={styles.iconBox}>
-            <Ionicons name="calculator-outline" size={26} color={colors.paper} />
-          </View>
-          <View style={styles.headerCopy}>
-            <Text style={styles.title}>Calculadora de bolsillo</Text>
-            <Text style={styles.subtitle}>Opera dos valores y valida entradas al instante.</Text>
-          </View>
-        </View>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.keyboardView}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+          <ScrollView
+            contentContainerStyle={styles.container}
+            keyboardDismissMode="on-drag"
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
+            <View style={styles.header}>
+              <View style={styles.iconBox}>
+                <Ionicons name="calculator-outline" size={26} color={colors.paper} />
+              </View>
+              <View style={styles.headerCopy}>
+                <Text style={styles.title}>Calculadora de bolsillo</Text>
+                <Text style={styles.subtitle}>Opera dos valores y valida entradas al instante.</Text>
+              </View>
+            </View>
 
-        <View style={styles.card}>
-          <TextInput
-            keyboardType="decimal-pad"
-            onChangeText={setNumeroUno}
-            placeholder="Primer numero"
-            placeholderTextColor={colors.muted}
-            style={styles.input}
-            value={numeroUno}
-          />
-          <TextInput
-            keyboardType="decimal-pad"
-            onChangeText={setNumeroDos}
-            placeholder="Segundo numero"
-            placeholderTextColor={colors.muted}
-            style={styles.input}
-            value={numeroDos}
-          />
+            <View style={styles.card}>
+              <TextInput
+                inputAccessoryViewID={inputAccessoryViewID}
+                keyboardType="decimal-pad"
+                onChangeText={setNumeroUno}
+                onSubmitEditing={Keyboard.dismiss}
+                placeholder="Primer numero"
+                placeholderTextColor={colors.muted}
+                returnKeyType="done"
+                style={styles.input}
+                value={numeroUno}
+              />
+              <TextInput
+                inputAccessoryViewID={inputAccessoryViewID}
+                keyboardType="decimal-pad"
+                onChangeText={setNumeroDos}
+                onSubmitEditing={Keyboard.dismiss}
+                placeholder="Segundo numero"
+                placeholderTextColor={colors.muted}
+                returnKeyType="done"
+                style={styles.input}
+                value={numeroDos}
+              />
 
-          <View style={styles.operations}>
-            {operaciones.map((item) => (
-              <Pressable
-                key={item.label}
-                accessibilityLabel={item.nombre}
-                onPress={() => setOperacion(item.label)}
-                style={[styles.operationButton, operacion === item.label && styles.operationActive]}
-              >
-                <Text style={[styles.operationText, operacion === item.label && styles.operationTextActive]}>
-                  {item.label}
-                </Text>
-              </Pressable>
-            ))}
-          </View>
+              <View style={styles.operations}>
+                {operaciones.map((item) => (
+                  <Pressable
+                    key={item.label}
+                    accessibilityLabel={item.nombre}
+                    onPress={() => {
+                      Keyboard.dismiss();
+                      setOperacion(item.label);
+                    }}
+                    style={[styles.operationButton, operacion === item.label && styles.operationActive]}
+                  >
+                    <Text style={[styles.operationText, operacion === item.label && styles.operationTextActive]}>
+                      {item.label}
+                    </Text>
+                  </Pressable>
+                ))}
+              </View>
 
-          <View style={styles.resultBox}>
-            <Text style={styles.resultLabel}>Salida</Text>
-            <Text style={styles.resultText}>{resultado}</Text>
+              <View style={styles.resultBox}>
+                <Text style={styles.resultLabel}>Salida</Text>
+                <Text style={styles.resultText}>{resultado}</Text>
+              </View>
+            </View>
+          </ScrollView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+
+      {Platform.OS === 'ios' ? (
+        <InputAccessoryView nativeID={inputAccessoryViewID}>
+          <View style={styles.keyboardToolbar}>
+            <Pressable onPress={Keyboard.dismiss} style={styles.doneButton}>
+              <Text style={styles.doneButtonText}>Listo</Text>
+            </Pressable>
           </View>
-        </View>
-      </View>
+        </InputAccessoryView>
+      ) : null}
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.paper },
-  container: { flex: 1, gap: 16, padding: 18 },
+  keyboardView: { flex: 1 },
+  container: { flexGrow: 1, gap: 16, padding: 18, paddingBottom: 32 },
   header: { alignItems: 'center', flexDirection: 'row', gap: 12 },
   iconBox: {
     alignItems: 'center',
@@ -149,4 +193,22 @@ const styles = StyleSheet.create({
   },
   resultLabel: { color: colors.amber, fontSize: 12, fontWeight: '900', marginBottom: 6, textTransform: 'uppercase' },
   resultText: { color: colors.paper, fontSize: 20, fontWeight: '900' },
+  keyboardToolbar: {
+    alignItems: 'flex-end',
+    backgroundColor: '#f4f4f4',
+    borderTopColor: '#d1d1d1',
+    borderTopWidth: 1,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  doneButton: {
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  doneButtonText: {
+    color: colors.blue,
+    fontSize: 16,
+    fontWeight: '900',
+  },
 });
