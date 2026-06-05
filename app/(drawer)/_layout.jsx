@@ -10,6 +10,7 @@ const drawerItems = [
   { label: 'Home', icon: 'home-outline', href: '/', routeName: '(tabs)' },
   { label: 'Perfil', icon: 'person-outline', href: '/perfil', routeName: 'perfil' },
   { label: 'Configuracion', icon: 'settings-outline', href: '/configuracion', routeName: 'configuracion' },
+  { label: 'Detalle', icon: 'document-text-outline', href: '/detalle' },
 ];
 
 function DrawerContent({ navigation }) {
