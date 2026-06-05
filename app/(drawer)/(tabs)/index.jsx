@@ -1,9 +1,7 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import {
   Alert,
-  Animated,
   Modal,
-  PanResponder,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -34,7 +32,6 @@ export default function HomeScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [seleccion, setSeleccion] = useState('Android');
-  const slide = useRef(new Animated.Value(0)).current;
 
   const abrirDrawer = () => {
     navigation.dispatch(DrawerActions.openDrawer());
@@ -44,21 +41,6 @@ export default function HomeScreen() {
     setMensaje('El boton de alerta actualizo este mensaje.');
     Alert.alert('Evento onPress', 'La interaccion funciona correctamente.');
   };
-
-  const panResponder = useRef(
-    PanResponder.create({
-      onMoveShouldSetPanResponder: (_, gesture) => Math.abs(gesture.dx) > 12,
-      onPanResponderMove: (_, gesture) => {
-        slide.setValue(Math.min(Math.max(gesture.dx, 0), 82));
-      },
-      onPanResponderRelease: (_, gesture) => {
-        if (gesture.dx > 44) {
-          abrirDrawer();
-        }
-        Animated.spring(slide, { toValue: 0, useNativeDriver: true }).start();
-      },
-    })
-  ).current;
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -120,15 +102,6 @@ export default function HomeScreen() {
           </Link>
         </ActivityCard>
       </ScrollView>
-
-      <Animated.View
-        style={[styles.sideHandle, { transform: [{ translateX: slide }] }]}
-        {...panResponder.panHandlers}
-      >
-        <Pressable style={styles.sideButton} onPress={abrirDrawer}>
-          <Ionicons name="menu-outline" size={24} color={colors.white} />
-        </Pressable>
-      </Animated.View>
 
       <Modal visible={modalVisible} transparent animationType="fade" onRequestClose={() => setModalVisible(false)}>
         <View style={styles.overlay}>
@@ -254,21 +227,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   navButtonText: { color: colors.mintDark, fontSize: 17, fontWeight: '900' },
-  sideHandle: {
-    left: 0,
-    position: 'absolute',
-    top: 118,
-    zIndex: 20,
-  },
-  sideButton: {
-    alignItems: 'center',
-    backgroundColor: colors.mintDark,
-    borderBottomRightRadius: 8,
-    borderTopRightRadius: 8,
-    height: 52,
-    justifyContent: 'center',
-    width: 42,
-  },
   overlay: {
     alignItems: 'center',
     backgroundColor: 'rgba(23, 21, 31, 0.58)',
