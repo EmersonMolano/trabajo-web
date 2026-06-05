@@ -5,7 +5,7 @@ import { colors, shadow } from '../../constants/design';
 
 export default function ConfiguracionScreen() {
   const [notificaciones, setNotificaciones] = useState(true);
-  const [modo, setModo] = useState('Claro');
+  const [modo, setModo] = useState('Izquierda');
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -29,7 +29,7 @@ export default function ConfiguracionScreen() {
         </View>
 
         <View style={styles.segment}>
-          {['Claro', 'Oscuro'].map((item) => (
+          {['Izquierda', 'Derecha'].map((item) => (
             <Pressable
               key={item}
               onPress={() => setModo(item)}

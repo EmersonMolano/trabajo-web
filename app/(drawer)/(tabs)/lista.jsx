@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors, shadow } from '../../constants/design';
+import { colors, shadow } from '../../../constants/design';
 
 const datos = Array.from({ length: 24 }, (_, index) => ({
   id: String(index + 1),

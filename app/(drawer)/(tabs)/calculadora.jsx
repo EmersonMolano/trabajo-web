@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors, shadow } from '../../constants/design';
+import { colors, shadow } from '../../../constants/design';
 
 const operaciones = [
   { label: '+', nombre: 'Suma' },

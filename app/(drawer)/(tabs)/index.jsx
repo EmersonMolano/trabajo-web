@@ -14,7 +14,7 @@ import {
 import { DrawerActions } from '@react-navigation/native';
 import { Link, router, useNavigation } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { colors, shadow } from '../../constants/design';
+import { colors, shadow } from '../../../constants/design';
 
 const opciones = ['Android', 'iOS', 'React Native', 'Expo'];
 
@@ -66,7 +66,6 @@ export default function HomeScreen() {
         <View style={styles.hero}>
           <Text style={styles.heroKicker}>React Native + Expo</Text>
           <Text style={styles.heroTitle}>Taller navegacion movil</Text>
-          <Text style={styles.heroText}>Componentes interactivos organizados por actividades del PDF.</Text>
         </View>
 
         <ActivityCard number="1" title="Uso de botones">
