@@ -23,8 +23,6 @@ Aplicacion movil hecha con Expo SDK 54, React Native y Expo Router para el talle
 - Expo Go instalado en el celular Android o iOS.
 - El celular y el computador en la misma red Wi-Fi si se usa modo LAN.
 
-Las instrucciones completas estan en [EJECUTAR.md](./EJECUTAR.md).
-
 Comandos principales:
 
 ```bash
