@@ -4,19 +4,31 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, shadow } from '../../../constants/design';
 
-const datos = Array.from({ length: 24 }, (_, index) => ({
-  id: String(index + 1),
-  titulo: `Registro ${index + 1}`,
-  descripcion: 'Entrada de prueba para evidenciar desplazamiento vertical.',
-}));
+const generarItems = (desde, cantidad = 24) =>
+  Array.from({ length: cantidad }, (_, i) => ({
+    id: String(desde + i + 1),
+    titulo: `Registro ${desde + i + 1}`,
+    descripcion: 'Entrada de prueba para evidenciar desplazamiento vertical.',
+  }));
 
 export default function ListaScreen() {
   const [cargando, setCargando] = useState(true);
+  const [cargandoMas, setCargandoMas] = useState(false);
+  const [datos, setDatos] = useState(() => generarItems(0));
 
   useEffect(() => {
     const timer = setTimeout(() => setCargando(false), 1200);
     return () => clearTimeout(timer);
   }, []);
+
+  const cargarMas = () => {
+    if (cargandoMas) return;
+    setCargandoMas(true);
+    setTimeout(() => {
+      setDatos((prev) => [...prev, ...generarItems(prev.length)]);
+      setCargandoMas(false);
+    }, 600);
+  };
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -36,6 +48,15 @@ export default function ListaScreen() {
           contentContainerStyle={styles.list}
           data={datos}
           keyExtractor={(item) => item.id}
+          onEndReached={cargarMas}
+          onEndReachedThreshold={0.3}
+          ListFooterComponent={
+            cargandoMas ? (
+              <View style={styles.footer}>
+                <ActivityIndicator color={colors.coral} size="large" />
+              </View>
+            ) : null
+          }
           renderItem={({ item }) => (
             <View style={styles.item}>
               <View style={styles.itemIcon}>
@@ -62,6 +83,7 @@ const styles = StyleSheet.create({
   loading: { alignItems: 'center', flex: 1, gap: 12, justifyContent: 'center' },
   loadingText: { color: colors.ink, fontSize: 16, fontWeight: '800' },
   list: { gap: 10, padding: 18, paddingBottom: 30 },
+  footer: { alignItems: 'center', gap: 12, paddingVertical: 24 },
   item: {
     alignItems: 'center',
     backgroundColor: colors.white,
