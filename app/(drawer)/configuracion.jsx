@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Pressable, SafeAreaView, StyleSheet, Switch, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Switch, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, shadow } from '../../constants/design';
 
