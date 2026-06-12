@@ -33,17 +33,39 @@ npx expo start --tunnel
 
 ## Estructura importante
 
-- `app/_layout.jsx`: navegacion principal Stack.
-- `app/(drawer)/_layout.jsx`: menu lateral Drawer.
-- `app/(tabs)/_layout.jsx`: menu inferior Bottom Tabs.
-- `app/(tabs)/index.jsx`: pantalla Inicio con botones, modal, dropdown y accesos de navegacion.
-- `app/(tabs)/calculadora.jsx`: calculadora basica.
-- `app/(tabs)/lista.jsx`: Scroll Loading con `FlatList`.
-- `app/(drawer)/perfil.jsx`: pantalla Perfil.
-- `app/(drawer)/configuracion.jsx`: pantalla Configuracion.
-- `app/detalle.jsx`: pantalla Detalle del Stack.
-- `constants/design.js`: colores y sombra compartidos.
+- `app/_layout.jsx`: ruta principal con Stack Navigator.
+- `app/(drawer)/_layout.jsx`: ruta del menu lateral Drawer.
+- `app/(drawer)/(tabs)/_layout.jsx`: ruta del menu inferior Bottom Tabs.
+- `app/(drawer)/(tabs)/index.jsx`: adaptador de ruta para Inicio.
+- `app/(drawer)/(tabs)/calculadora.jsx`: adaptador de ruta para Calculadora.
+- `app/(drawer)/(tabs)/lista.jsx`: adaptador de ruta para Scroll Loading.
+- `app/(drawer)/perfil.jsx`: adaptador de ruta para Perfil.
+- `app/(drawer)/configuracion.jsx`: adaptador de ruta para Configuracion.
+- `app/detalle.jsx`: adaptador de ruta para Detalle.
+- `src/screens`: pantallas reales de la aplicacion.
+- `src/components`: componentes reutilizables de interfaz.
+- `src/navigation`: componentes y configuracion de navegacion reutilizable.
+- `src/features`: logica de una funcionalidad especifica, como la calculadora.
+- `src/data`: datos y generadores de datos usados por las pantallas.
+- `src/theme`: colores, sombras y estilos compartidos.
+- `constants/design.js`: compatibilidad con imports antiguos; reexporta desde `src/theme/design.js`.
 - `assets/images`: iconos, splash y favicon usados por Expo.
+
+## Arquitectura usada
+
+Se uso una **arquitectura por capas con separacion por responsabilidad**, adaptada a Expo Router.
+
+La idea principal es que cada carpeta tenga una responsabilidad clara:
+
+- `app`: solo define rutas y layouts de navegacion. No contiene la logica principal de las pantallas.
+- `src/screens`: contiene las vistas completas que ve el usuario.
+- `src/components`: guarda piezas reutilizables de UI.
+- `src/navigation`: concentra elementos propios de la navegacion, como el contenido personalizado del Drawer.
+- `src/features`: agrupa logica de negocio o reglas de una funcionalidad. Por ejemplo, `src/features/calculator/calculator.js` calcula el resultado sin depender de React Native.
+- `src/data`: separa listas, opciones y datos de prueba.
+- `src/theme`: centraliza colores y estilos compartidos para evitar repetir valores en muchas pantallas.
+
+Se eligio esta arquitectura porque el proyecto es una aplicacion movil pequena de taller, pero ya tiene varias pantallas, navegacion Stack/Drawer/Tabs, estilos compartidos y logica de UI. Una arquitectura por capas mejora el orden de los archivos, facilita encontrar cada parte y evita que las rutas de Expo Router queden llenas de codigo mezclado.
 
 ## Nota sobre Android
 

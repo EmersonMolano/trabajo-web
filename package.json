@@ -10,7 +10,7 @@
     "start:tunnel": "expo start --go --tunnel",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "eslint app"
+    "lint": "eslint app src"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",

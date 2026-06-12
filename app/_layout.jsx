@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { colors } from '../constants/design';
+import { colors } from '../src/theme/design';
 
 export default function RootLayout() {
   return (
